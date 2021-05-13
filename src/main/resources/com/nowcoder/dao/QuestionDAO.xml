@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nowcoder.dao.QuestionDAO">
+    <sql id="table">question</sql>
+    <sql id="selectFields">id, title, content, user_id, created_date, comment_count</sql>
+    <select id="selectLatestQuestions" resultType="com.nowcoder.model.Question">
+        SELECT
+        <include refid="selectFields"></include>
+        FROM
+        <include refid="table"></include>
+
+        <if test="userId!=0">
+            WHERE userId = #{userId} <!--#{}是从dao接口的入参获取值，名称要对应-->
+        </if>
+        ORDER BY id DESC
+        LIMIT #{offset},#{limit}
+    </select>
+
+</mapper>
